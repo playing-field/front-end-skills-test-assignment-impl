@@ -3,10 +3,69 @@ var txtId = $('#txt-id');
 var txtName = $('#txt-name');
 var txtAddrss = $('#txt-address');
 
+var pageSize;
+
 var customers = [];
 
-
 //===============================================================
+
+//======================init()=============================
+init();
+function init(){
+    //First We have to calculate how many rows able to add?so iam going to add a fake row and going to calculate its height and maximum rows
+
+
+
+
+
+    $('table tbody').append(
+        '<tr>\n' +
+        '                        <td>ID</td>\n' +
+        '                        <td>Name</td>\n' +
+        '                        <td>Address</td>\n' +
+        '                        <td><div class="trash"></div></td>\n' +
+        '                    </tr>'
+
+    );
+
+
+
+
+
+
+    $('nav').removeClass('hidden');
+
+
+    pageSize=1;
+
+
+    var bool=true;
+    calculate();
+
+
+    function calculate() {
+        for (; bool;) {
+
+            if ($(window).innerHeight() + 0.4 < ($('body').innerHeight())) {
+                return;
+            }
+            $('table tbody').append($('table tbody tr').first().clone());
+            pageSize++;
+
+
+        }
+    }
+
+
+    //let's clear the table
+
+
+
+
+
+}
+
+
 
 
 //============================Event Handlers=======================
@@ -35,13 +94,28 @@ $('table tbody').on('click', 'tr', function () {
 
 //========================================Functions==========================
 
-function handleSave() {
-    if (!validate()) {
-        return;
+
+function handleTFootVisibility() {
+    if(customers.length===0){
+        $('tfoot tr').removeClass('invisible');
+    }else{
+        $('tfoot tr').addClass('invisible');
     }
 
+}
 
-    var btn = $('<td><button class="btn btn-danger" type="button">Delete</button></td>');
+function handlePagination() {
+
+}
+
+function handleSave() {
+    /*if (!validate()) {
+        return;
+    }*/
+
+
+    // var btn = $('<td><button class="btn btn-danger btn-sm" type="button">Delete</button></td>');
+    var btn = $('<td><div class="trash"></div></td>');
     var rowDetail = $('<tr><td>' + $('#txt-id').val() + '</td><td>' + $('#txt-name').val() + '</td><td>' + $('#txt-address').val() + '</td></tr>');
     $(rowDetail.find('tr td').prevObject[0]).append(btn);
 
@@ -74,6 +148,7 @@ function handleSave() {
         },1);
 
         $(this).parent().parents('tr').remove();
+        handleTFootVisibility();
 
     });
 
@@ -88,6 +163,10 @@ function handleSave() {
     txtName.val('');
     txtAddrss.val('');
 
+
+    handleTFootVisibility();
+
+    handlePagination();
 
 
 
@@ -156,3 +235,6 @@ function clearSelection() {
 
 
 }
+
+
+console.log(pageSize);
