@@ -3,6 +3,8 @@ var txtId = $('#txt-id');
 var txtName = $('#txt-name');
 var txtAddrss = $('#txt-address');
 
+var customers = [];
+
 
 //===============================================================
 
@@ -12,13 +14,7 @@ var txtAddrss = $('#txt-address');
 $('#btn-save').click(handleSave);
 
 
-
-
-
-
-
-
-$('table tbody').on('click','tr',function () {
+$('table tbody').on('click', 'tr', function () {
 
     clearSelection();
 
@@ -26,13 +22,12 @@ $('table tbody').on('click','tr',function () {
     txtName.val($($(this).children('td')[1]).text());
     txtAddrss.val($($(this).children('td')[2]).text());
 
-    txtId.prop('disabled',true);
+    txtId.prop('disabled', true);
 
     $(this).addClass('selected');
 
 
 });
-
 
 
 //=================================================================
@@ -51,10 +46,42 @@ function handleSave() {
     $(rowDetail.find('tr td').prevObject[0]).append(btn);
 
     $('table tbody').append(rowDetail);
-    btn.children().click(function ( ) {
+    btn.children().click(function () {
+
+        var delCusId=$($(this).parents('tr').children('td')[0]).text();
+
+        // var findIndex=function(){
+        //     for(var i=0;i<customers.length;i++){
+        //
+        //         if(customers[i].id===delCusId){
+        //             return i;
+        //         }
+        //
+        //     }
+        // };
+        // var index=findIndex();
+        // customers.splice(index,1);
+        // console.log(customers);    Yata widiyatath karanna puluwan
+
+        customers.splice(function(){
+            for(var i=0;i<customers.length;i++){
+
+                if(customers[i].id===delCusId){
+                    return i;
+                }
+
+            }
+        },1);
 
         $(this).parent().parents('tr').remove();
 
+    });
+
+
+    customers.push({
+        id: txtId.val(),
+        name: txtName.val(),
+        address: txtName.val()
     });
 
     txtId.val('');
@@ -111,11 +138,10 @@ function validate() {
 
 
 function clearSelection() {
-    txtId.prop('disabled',false);
+    txtId.prop('disabled', false);
 
 
     $('table tr').removeClass('selected');
-
 
 
 }
