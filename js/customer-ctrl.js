@@ -133,6 +133,17 @@ function validate() {
     }
 
 
+    if(customers.findIndex(function (c) {
+        return txtId.val()===c.id;
+    })!==-1){
+        alert('Duplicate Customers IDs are not allowed!');
+        txtId.focus();
+        isValid=false;
+    }
+
+
+
+
     return isValid;
 }
 
