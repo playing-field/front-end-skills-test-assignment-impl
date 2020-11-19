@@ -20,12 +20,15 @@ $('#btn-save').click(handleSave);
 
 $('table tbody').on('click','tr',function () {
 
+    clearSelection();
 
     txtId.val($($(this).children('td')[0]).text());
     txtName.val($($(this).children('td')[1]).text());
     txtAddrss.val($($(this).children('td')[2]).text());
 
     txtId.prop('disabled',true);
+
+    $(this).addClass('selected');
 
 
 });
@@ -48,7 +51,7 @@ function handleSave() {
     $(rowDetail.find('tr td').prevObject[0]).append(btn);
 
     $('table tbody').append(rowDetail);
-    btn.children().click(function (event) {
+    btn.children().click(function ( ) {
 
         $(this).parent().parents('tr').remove();
 
@@ -110,6 +113,8 @@ function validate() {
 function clearSelection() {
     txtId.prop('disabled',false);
 
+
+    $('table tr').removeClass('selected');
 
 
 
